@@ -14,7 +14,9 @@ import argparse
 import os
 import sys
 
+from dna_identifier.locate import locate
 from dna_identifier.model import SequenceIdentifier
+from dna_identifier.reference_data import load_gene_annotations, load_reference_sequences
 from dna_identifier.sequence_utils import clean_sequence, is_valid_dna, parse_fasta, sequence_stats
 
 BOT_NAME = "SeqBot"
@@ -33,7 +35,7 @@ def load_model(path: str) -> SequenceIdentifier:
     if not os.path.exists(path):
         print(
             f"{BOT_NAME}: I can't find a trained model at '{path}'.\n"
-            "Run `python train_model.py` first to build one from data/reference_16s.fasta."
+            "Run `python train_model.py` first to build one from data/reference_sequences.fasta."
         )
         sys.exit(1)
     return SequenceIdentifier.load(path)
@@ -60,7 +62,13 @@ def read_sequences_from_input(text: str) -> list[tuple[str, str]]:
         return records
     return [("pasted sequence", clean_sequence(stripped))]
 
-def format_prediction(label_name: str, seq: str, model: SequenceIdentifier) -> str:
+def format_prediction(
+    label_name: str,
+    seq: str,
+    model: SequenceIdentifier,
+    references: dict[str, str] | None = None,
+    gene_annotations: dict[str, list[dict]] | None = None,
+) -> str:
     seq = clean_sequence(seq)
     if not is_valid_dna(seq):
         return (
@@ -85,19 +93,36 @@ def format_prediction(label_name: str, seq: str, model: SequenceIdentifier) -> s
             "(Low confidence — this may be a species outside my training set, "
             "or too short/noisy a fragment. Consider confirming with BLAST.)"
         )
+
+    reference_seq = (references or {}).get(pred.label)
+    if reference_seq:
+        genes = (gene_annotations or {}).get(pred.label)
+        loc = locate(seq, reference_seq, genes=genes)
+        lines.append(
+            f"Location: reference positions {loc.ref_start}-{loc.ref_end} of "
+            f"{loc.ref_length} bp ({loc.strand} strand), {loc.percent_identity}% identity"
+        )
+        if loc.genes:
+            lines.append(f"Falls within: {', '.join(loc.genes)}")
+
     return "\n".join(lines)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default="models/species_identifier.joblib")
+    parser.add_argument("--references", default="data/reference_sequences.fasta")
+    parser.add_argument("--gene-annotations", default="data/gene_annotations.json")
     args = parser.parse_args()
 
     model = load_model(args.model)
+    references = load_reference_sequences(args.references)
+    gene_annotations = load_gene_annotations(args.gene_annotations)
     species_list = ", ".join(sorted(model.classes_))
 
-    print(f"{BOT_NAME}: Hi! I identify bacterial species from 16S rRNA sequence fragments.")
-    print(f"{BOT_NAME}: I currently know these species: {species_list}")
+    print(f"{BOT_NAME}: Hi! I identify bacterial and viral species from a DNA sequence fragment,")
+    print(f"{BOT_NAME}: and tell you where in the reference genome it lines up.")
+    print(f"{BOT_NAME}: I currently know: {species_list}")
     print(f"{BOT_NAME}: Paste a sequence (or type 'help'). Type 'quit' to leave.\n")
 
     last_seq = None
@@ -127,7 +152,8 @@ def main() -> None:
         records = read_sequences_from_input(user_input)
         for label, seq in records:
             last_seq = seq
-            print(f"{BOT_NAME}: {format_prediction(label, seq, model)}\n")
+            reply = format_prediction(label, seq, model, references, gene_annotations)
+            print(f"{BOT_NAME}: {reply}\n")
 
 
 if __name__ == "__main__":
