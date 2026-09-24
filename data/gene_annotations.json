@@ -1,0 +1,377 @@
+{
+  "Dengue virus 1": [
+    {
+      "start": 95,
+      "end": 394,
+      "product": "capsid protein C"
+    },
+    {
+      "start": 437,
+      "end": 709,
+      "product": "protein pr"
+    },
+    {
+      "start": 710,
+      "end": 934,
+      "product": "membrane glycoprotein M"
+    },
+    {
+      "start": 935,
+      "end": 2419,
+      "product": "envelope protein E"
+    },
+    {
+      "start": 2420,
+      "end": 3475,
+      "product": "nonstructural protein NS1"
+    },
+    {
+      "start": 3476,
+      "end": 4129,
+      "product": "nonstructural protein NS2A"
+    },
+    {
+      "start": 4130,
+      "end": 4519,
+      "product": "nonstructural protein NS2B"
+    },
+    {
+      "start": 4520,
+      "end": 6376,
+      "product": "nonstructural protein NS3"
+    },
+    {
+      "start": 6377,
+      "end": 6757,
+      "product": "nonstructural protein NS4A"
+    },
+    {
+      "start": 6758,
+      "end": 6826,
+      "product": "protein 2K"
+    },
+    {
+      "start": 6827,
+      "end": 7573,
+      "product": "nonstructural protein NS4B"
+    },
+    {
+      "start": 7574,
+      "end": 10270,
+      "product": "RNA-dependent RNA polymerase NS5"
+    }
+  ],
+  "Dengue virus 2": [
+    {
+      "start": 97,
+      "end": 396,
+      "product": "capsid protein C"
+    },
+    {
+      "start": 439,
+      "end": 711,
+      "product": "protein pr"
+    },
+    {
+      "start": 712,
+      "end": 936,
+      "product": "membrane glycoprotein M"
+    },
+    {
+      "start": 937,
+      "end": 2421,
+      "product": "envelope protein E"
+    },
+    {
+      "start": 2422,
+      "end": 3477,
+      "product": "nonstructural protein NS1"
+    },
+    {
+      "start": 3478,
+      "end": 4131,
+      "product": "nonstructural protein NS2A"
+    },
+    {
+      "start": 4132,
+      "end": 4521,
+      "product": "nonstructural protein NS2B"
+    },
+    {
+      "start": 4522,
+      "end": 6375,
+      "product": "nonstructural protein NS3"
+    },
+    {
+      "start": 6376,
+      "end": 6756,
+      "product": "nonstructural protein NS4A"
+    },
+    {
+      "start": 6757,
+      "end": 6825,
+      "product": "protein 2K"
+    },
+    {
+      "start": 6826,
+      "end": 7569,
+      "product": "nonstructural protein NS4B"
+    },
+    {
+      "start": 7570,
+      "end": 10269,
+      "product": "RNA-dependent RNA polymerase NS5"
+    }
+  ],
+  "Dengue virus 3": [
+    {
+      "start": 95,
+      "end": 394,
+      "product": "capsid protein C"
+    },
+    {
+      "start": 437,
+      "end": 709,
+      "product": "protein pr"
+    },
+    {
+      "start": 710,
+      "end": 934,
+      "product": "membrane glycoprotein M"
+    },
+    {
+      "start": 935,
+      "end": 2413,
+      "product": "envelope protein E"
+    },
+    {
+      "start": 2414,
+      "end": 3469,
+      "product": "nonstructural protein NS1"
+    },
+    {
+      "start": 3470,
+      "end": 4123,
+      "product": "nonstructural protein NS2A"
+    },
+    {
+      "start": 4124,
+      "end": 4513,
+      "product": "nonstructural protein NS2B"
+    },
+    {
+      "start": 4514,
+      "end": 6370,
+      "product": "nonstructural protein NS3"
+    },
+    {
+      "start": 6371,
+      "end": 6751,
+      "product": "nonstructural protein NS4A"
+    },
+    {
+      "start": 6752,
+      "end": 6820,
+      "product": "protein 2K"
+    },
+    {
+      "start": 6821,
+      "end": 7564,
+      "product": "nonstructural protein NS4B"
+    },
+    {
+      "start": 7565,
+      "end": 10264,
+      "product": "RNA-dependent RNA polymerase NS5"
+    }
+  ],
+  "Dengue virus 4": [
+    {
+      "start": 102,
+      "end": 398,
+      "product": "capsid protein C"
+    },
+    {
+      "start": 441,
+      "end": 713,
+      "product": "protein pr"
+    },
+    {
+      "start": 714,
+      "end": 938,
+      "product": "membrane glycoprotein M"
+    },
+    {
+      "start": 939,
+      "end": 2423,
+      "product": "envelope protein E"
+    },
+    {
+      "start": 2424,
+      "end": 3479,
+      "product": "nonstructural protein NS1"
+    },
+    {
+      "start": 3480,
+      "end": 4133,
+      "product": "nonstructural protein NS2A"
+    },
+    {
+      "start": 4134,
+      "end": 4523,
+      "product": "nonstructural protein NS2B"
+    },
+    {
+      "start": 4524,
+      "end": 6377,
+      "product": "nonstructural protein NS3"
+    },
+    {
+      "start": 6378,
+      "end": 6758,
+      "product": "nonstructural protein NS4A"
+    },
+    {
+      "start": 6759,
+      "end": 6827,
+      "product": "protein 2K"
+    },
+    {
+      "start": 6828,
+      "end": 7562,
+      "product": "nonstructural protein NS4B"
+    },
+    {
+      "start": 7563,
+      "end": 10262,
+      "product": "RNA-dependent RNA polymerase NS5"
+    }
+  ],
+  "MERS-CoV Saudi Arabia": [
+    {
+      "start": 279,
+      "end": 857,
+      "product": "nsp1 protein"
+    },
+    {
+      "start": 858,
+      "end": 2837,
+      "product": "nsp2 protein"
+    },
+    {
+      "start": 2838,
+      "end": 8498,
+      "product": "nsp3 protein"
+    },
+    {
+      "start": 8499,
+      "end": 10019,
+      "product": "nsp4 protein"
+    },
+    {
+      "start": 10020,
+      "end": 10937,
+      "product": "nsp5 protein"
+    },
+    {
+      "start": 10938,
+      "end": 11813,
+      "product": "nsp6 protein"
+    },
+    {
+      "start": 11814,
+      "end": 12062,
+      "product": "nsp7 protein"
+    },
+    {
+      "start": 12063,
+      "end": 12659,
+      "product": "nsp8 protein"
+    },
+    {
+      "start": 12660,
+      "end": 12989,
+      "product": "nsp9 protein"
+    },
+    {
+      "start": 12990,
+      "end": 13409,
+      "product": "nsp10 protein"
+    },
+    {
+      "start": 13410,
+      "end": 16207,
+      "product": "RNA-dependent RNA polymerase"
+    },
+    {
+      "start": 13410,
+      "end": 13451,
+      "product": "nsp11 protein"
+    },
+    {
+      "start": 16208,
+      "end": 18001,
+      "product": "helicase (nsp13)"
+    },
+    {
+      "start": 18002,
+      "end": 19573,
+      "product": "exoribonuclease (nsp14)"
+    },
+    {
+      "start": 19574,
+      "end": 20602,
+      "product": "endoribonuclease (nsp15)"
+    },
+    {
+      "start": 20603,
+      "end": 21511,
+      "product": "2'-O-methyltransferase"
+    },
+    {
+      "start": 21456,
+      "end": 25517,
+      "product": "spike glycoprotein S"
+    },
+    {
+      "start": 25532,
+      "end": 25843,
+      "product": "accessory protein ORF3"
+    },
+    {
+      "start": 25852,
+      "end": 26181,
+      "product": "accessory protein ORF4a"
+    },
+    {
+      "start": 26093,
+      "end": 26833,
+      "product": "accessory protein ORF4b"
+    },
+    {
+      "start": 26840,
+      "end": 27514,
+      "product": "accessory protein ORF5"
+    },
+    {
+      "start": 27590,
+      "end": 27838,
+      "product": "envelope protein E"
+    },
+    {
+      "start": 27853,
+      "end": 28512,
+      "product": "membrane protein M"
+    },
+    {
+      "start": 28566,
+      "end": 29807,
+      "product": "nucleocapsid protein N"
+    },
+    {
+      "start": 28762,
+      "end": 29100,
+      "product": "accessory protein ORF8b"
+    }
+  ]
+}
