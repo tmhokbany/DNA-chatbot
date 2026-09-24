@@ -12,18 +12,36 @@ import streamlit as st
 
 from chatbot import format_prediction, read_sequences_from_input
 from dna_identifier.model import SequenceIdentifier
+from dna_identifier.reference_data import load_gene_annotations, load_reference_sequences
 
 MODEL_PATH = "models/species_identifier.joblib"
+REFERENCES_PATH = "data/reference_sequences.fasta"
+GENE_ANNOTATIONS_PATH = "data/gene_annotations.json"
 
-st.set_page_config(page_title="SeqBot: A DNA Species Identifier", page_icon="🧬🦠")
-st.title("🧬🦠 SeqBot")
-st.caption("Chat with a k-mer + RandomForest classifier trained on NCBI 16S rRNA reference sequences.")
+st.set_page_config(page_title="SeqBot — DNA Species Identifier", page_icon="🧬")
+st.title("🧬 SeqBot")
+st.caption(
+    "Chat with a k-mer + RandomForest classifier trained on real NCBI reference "
+    "genomes, with alignment-based genome-location lookup."
+)
+
 
 @st.cache_resource
 def load_model() -> SequenceIdentifier | None:
     if not os.path.exists(MODEL_PATH):
         return None
     return SequenceIdentifier.load(MODEL_PATH)
+
+
+@st.cache_resource
+def load_references() -> dict[str, str]:
+    return load_reference_sequences(REFERENCES_PATH)
+
+
+@st.cache_resource
+def load_genes() -> dict[str, list[dict]]:
+    return load_gene_annotations(GENE_ANNOTATIONS_PATH)
+
 
 model = load_model()
 
@@ -34,15 +52,20 @@ if model is None:
     )
     st.stop()
 
+references = load_references()
+gene_annotations = load_genes()
+
 with st.sidebar:
-    st.subheader("Species this model knows")
+    st.subheader("Organisms this model knows")
     for name in sorted(model.classes_):
         st.write(f"- {name}")
     st.divider()
     st.caption(
-        "Demo model trained on one NCBI RefSeq 16S rRNA record per species, "
-        "augmented into many short training fragments. Not a substitute for "
-        "a real BLAST/NCBI search — see README for details."
+        "Demo model trained on one NCBI RefSeq reference per organism (a 16S "
+        "rRNA gene for bacteria, a complete genome for the Dengue serotypes), "
+        "augmented into many short training fragments. Location matches use a "
+        "real Biopython local alignment against that reference, not a guess. "
+        "Not a substitute for a real BLAST/NCBI search — see README for details."
     )
 
 if "messages" not in st.session_state:
@@ -51,7 +74,8 @@ if "messages" not in st.session_state:
             "role": "assistant",
             "content": (
                 "Hi! Paste a DNA sequence (raw bases or a FASTA record) and I'll "
-                "predict which bacterial species it's most likely from."
+                "predict which organism it's most likely from and where in its "
+                "reference genome the match falls."
             ),
         }
     ]
@@ -66,7 +90,10 @@ if prompt := st.chat_input("Paste a DNA sequence or FASTA record..."):
         st.markdown(prompt)
 
     records = read_sequences_from_input(prompt)
-    reply_parts = [format_prediction(label, seq, model) for label, seq in records]
+    reply_parts = [
+        format_prediction(label, seq, model, references, gene_annotations)
+        for label, seq in records
+    ]
     reply = "\n\n---\n\n".join(reply_parts)
 
     with st.chat_message("assistant"):
