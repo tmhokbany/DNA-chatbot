@@ -22,19 +22,19 @@ SeqBot: Top matches:
    16S rRNA RefSeq sequence per species, pulled from NCBI for 14 common
    bacterial species. See [`data/SOURCES.md`](data/SOURCES.md) for the exact
    accessions.
-2. **Augmentation** (`dna_identifier/augment.py`) each reference genome per species is cut into hundreds of randomized
+2. **Augmentation** (`DNA identifier/augment.py`) each reference genome per species is cut into hundreds of randomized
    250-500bp fragments (random start position, ~1% point-mutation rate,
    random strand) to simulate real partial sequencing reads and give the
    classifier enough examples per class to generalize instead of memorize.
-3. **Features** (`dna_identifier/features.py`) every fragment is converted
+3. **Features** (`DNA identifier/features.py`) every fragment is converted
    into a normalized k-mer (default k=4, 256 features) frequency vector.
    K-mer composition is a standard, alignment-free way to fingerprint a DNA
    sequence regardless of length or read direction.
-4. **Model** (`dna_identifier/model.py`) a `RandomForestClassifier` maps
+4. **Model** (`DNA identifier/model.py`) a `RandomForestClassifier` maps
    k-mer vectors to species labels, wrapped in a scikit-learn `Pipeline` so
    featurization and prediction travel together in one saved artifact.
 5. **Chat interfaces**`chatbot.py` (terminal) and `app.py` (Streamlit)
-   both call the same `dna_identifier` package, so predictions are identical
+   both call the same `DNA identifier` package, so predictions are identical
    in either UI.
 
 ## Setup
@@ -51,10 +51,7 @@ pip install -r requirements.txt
 python train_model.py
 ```
 
-This builds the augmented training set, fits the classifier, prints a
-held-out accuracy report, and saves the pipeline to
-`models/species_identifier.joblib`. Re-run it any time after editing
-`data/reference_16s.fasta` or the augmentation parameters.
+This builds the augmented training set, fits the classifier, prints a held-out accuracy report, and saves the pipeline to `models/species_identifier.joblib`. Re-run it any time after editing `data/reference_16s.fasta` or the augmentation parameters.
 
 ## Chatbot terminal
 
