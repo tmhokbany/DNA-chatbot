@@ -107,7 +107,6 @@ def format_prediction(
 
     return "\n".join(lines)
 
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default="models/species_identifier.joblib")
@@ -154,7 +153,6 @@ def main() -> None:
             last_seq = seq
             reply = format_prediction(label, seq, model, references, gene_annotations)
             print(f"{BOT_NAME}: {reply}\n")
-
 
 if __name__ == "__main__":
     main()
