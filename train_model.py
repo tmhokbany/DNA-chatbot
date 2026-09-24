@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Train the k-mer + RandomForest species classifier from data/reference_16s.fasta
+"""Train the k-mer + RandomForest classifier from data/reference_sequences.fasta
 and save the fitted pipeline to models/species_identifier.joblib.
 
 Usage:
-    python train_model.py [--fasta data/reference_16s.fasta] [--out models/species_identifier.joblib]
+    python train_model.py [--fasta data/reference_sequences.fasta] [--out models/species_identifier.joblib]
 """
 from __future__ import annotations
 
@@ -14,23 +14,15 @@ from sklearn.model_selection import train_test_split
 
 from dna_identifier.augment import build_training_set
 from dna_identifier.model import SequenceIdentifier
-from dna_identifier.sequence_utils import parse_fasta
-
-
-def load_reference_sequences(fasta_path: str) -> dict[str, str]:
-    references: dict[str, str] = {}
-    for header, seq in parse_fasta(fasta_path):
-        label = header.split("|")[0].replace("_", " ").strip()
-        references[label] = seq
-    return references
+from dna_identifier.reference_data import load_reference_sequences
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--fasta", default="data/reference_16s.fasta")
+    parser.add_argument("--fasta", default="data/reference_sequences.fasta")
     parser.add_argument("--out", default="models/species_identifier.joblib")
     parser.add_argument("--fragments-per-class", type=int, default=80)
-    parser.add_argument("--k", type=int, default=4)
+    parser.add_argument("--k", type=int, default=5)
     args = parser.parse_args()
 
     references = load_reference_sequences(args.fasta)
