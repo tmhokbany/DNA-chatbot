@@ -102,6 +102,4 @@ This is a learning/demo project, not a diagnostic or research tool :octocat: :
   so accuracy numbers reflect augmented-fragment classification, not
   independent biological replicates.
 - For real species identification from Sanger/16S data, BLAST the sequence
-  against NCBI's curated 16S ribosomal RNA database (see the companion
-  [16S-rRNA-pipeline](https://github.com/tmhokbany/16S-rRNA-pipeline) repo
-  for a full trim/assemble/cluster pipeline that hands off to BLAST).
+  against NCBI's curated 16S ribosomal RNA database.
