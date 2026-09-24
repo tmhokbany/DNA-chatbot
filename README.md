@@ -25,20 +25,20 @@ SeqBot: Location: reference positions 1-1467 of 1467 bp (+ strand), 100.0% ident
    genome for all four Dengue virus serotypes. See
    [`data/SOURCES.md`](data/SOURCES.md) for exact accessions and why
    viruses are represented differently (no 16S gene in an RNA virus).
-2. **Augmentation**: (`DNA identifier/augment.py`) — since there's only one
+2. **Augmentation**: (`dna-identifier/augment.py`) — since there's only one
    reference sequence per organism, each one is cut into hundreds of
    randomized 250–500bp fragments (random start position, ~1%
    point-mutation rate, random strand) to simulate real partial sequencing
    reads and give the classifier enough examples per class to generalize
    instead of memorize.
-3. **Features**: (`DNA identifier/features.py`) — every fragment is converted
+3. **Features**: (`dna-identifier/features.py`) — every fragment is converted
    into a normalized k-mer (default k=5, 1024 features) frequency vector.
    K-mer composition is a standard, alignment-free way to fingerprint a DNA
    sequence regardless of its length or read direction.
-4. **Model**: (`DNA identifier/model.py`) — a `RandomForestClassifier` maps
+4. **Model**: (`dna-identifier/model.py`) — a `RandomForestClassifier` maps
    k-mer vectors to organism labels, wrapped in a scikit-learn `Pipeline` so
    featurization and prediction travel together in one saved artifact.
-5. **Genome location**: (`DNA identifier/locate.py`) — once the classifier
+5. **Genome location**: (`dna-identifier/locate.py`) — once the classifier
    picks an organism, the query is locally aligned (Biopython
    `PairwiseAligner`, both strands) against *that organism's actual
    reference sequence*. This is a real Smith-Waterman-style alignment, not
@@ -48,7 +48,7 @@ SeqBot: Location: reference positions 1-1467 of 1467 bp (+ strand), 100.0% ident
    falls inside, e.g. "envelope protein E" or "RNA-dependent RNA polymerase
    NS5".
 6. **Chat interfaces**: `chatbot.py` (terminal) and `app.py` (Streamlit)
-   both call the same `DNA identifier` package, so predictions and location
+   both call the same `dna-identifier` package, so predictions and location
    output are identical in either UI.
 
 ## Setup
@@ -118,6 +118,6 @@ This is a learning/demo project, not a diagnostic or research tool:
   organism, so accuracy numbers reflect augmented-fragment classification,
   not independent biological replicates.
 - The genome-location alignment is a real pairwise alignment, but it's only
-  run against the *predicted* organism's reference — if the classifier picks
+  run against the *predicted* organism's reference, if the classifier picks
   the wrong organism, the reported location is meaningless for the actual
   source sequence.
