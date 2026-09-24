@@ -9,6 +9,7 @@ def test_clean_sequence_strips_header_and_whitespace():
     raw = ">my seq\nACGT acgt\nNNAC\n"
     assert clean_sequence(raw) == "ACGTACGTNNAC"
 
+
 def test_is_valid_dna_rejects_short_and_garbage():
     assert not is_valid_dna("ACGT")
     assert not is_valid_dna("ACGTXYZ" * 10)
