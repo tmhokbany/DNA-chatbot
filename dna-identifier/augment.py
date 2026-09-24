@@ -1,5 +1,7 @@
 """
-Real identification works on partial reads (e.g. Sanger or short-amplicon data), so training samples are built the same way: random sliding-window fragments of the reference gene, with light point mutations and random strand orientation to simulate sequencing noise.
+Real identification works on partial reads (e.g. Sanger or short-amplicon data), so training samples are built the same way:
+random sliding-window fragments of the reference gene, with light point mutations and random strand orientation 
+to simulate sequencing noise.
 """
 from __future__ import annotations
 
