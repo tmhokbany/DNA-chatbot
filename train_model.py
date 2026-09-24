@@ -1,21 +1,17 @@
-#!/usr/bin/env python3
 """Train the k-mer + RandomForest classifier from data/reference_sequences.fasta
 and save the fitted pipeline to models/species_identifier.joblib.
 
 Usage:
     python train_model.py [--fasta data/reference_sequences.fasta] [--out models/species_identifier.joblib]
 """
+
 from __future__ import annotations
-
 import argparse
-
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
-
 from dna_identifier.augment import build_training_set
 from dna_identifier.model import SequenceIdentifier
 from dna_identifier.reference_data import load_reference_sequences
-
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -49,7 +45,6 @@ def main() -> None:
 
     model.save(args.out)
     print(f"Saved trained model to {args.out}")
-
 
 if __name__ == "__main__":
     main()
