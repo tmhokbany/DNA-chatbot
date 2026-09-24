@@ -15,7 +15,6 @@ SeqBot: Top matches:
     Salmonella enterica           6.0%
     Klebsiella pneumoniae         2.0%
 SeqBot: Location: reference positions 1-1467 of 1467 bp (+ strand), 100.0% identity
-
 ```
 
 ## How does it work
