@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Streamlit web chat UI for the DNA sequence identifier.
 
 Usage:
@@ -18,20 +17,18 @@ MODEL_PATH = "models/species_identifier.joblib"
 REFERENCES_PATH = "data/reference_sequences.fasta"
 GENE_ANNOTATIONS_PATH = "data/gene_annotations.json"
 
-st.set_page_config(page_title="SeqBot — DNA Species Identifier", page_icon="🧬")
-st.title("🧬 SeqBot")
+st.set_page_config(page_title="SeqBot: A ML DNA Species Identifier")
+st.title("SeqBot")
 st.caption(
     "Chat with a k-mer + RandomForest classifier trained on real NCBI reference "
     "genomes, with alignment-based genome-location lookup."
 )
-
 
 @st.cache_resource
 def load_model() -> SequenceIdentifier | None:
     if not os.path.exists(MODEL_PATH):
         return None
     return SequenceIdentifier.load(MODEL_PATH)
-
 
 @st.cache_resource
 def load_references() -> dict[str, str]:
@@ -41,7 +38,6 @@ def load_references() -> dict[str, str]:
 @st.cache_resource
 def load_genes() -> dict[str, list[dict]]:
     return load_gene_annotations(GENE_ANNOTATIONS_PATH)
-
 
 model = load_model()
 
