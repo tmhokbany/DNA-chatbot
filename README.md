@@ -84,11 +84,9 @@ prints a held-out accuracy report, and saves the pipeline to
 4. **Point VS Code at that venv.** Open the Command Palette
    (`Cmd+Shift+P`), run `Python: Select Interpreter`, and choose the one
    listed under `./venv/bin/python` (VS Code usually suggests it
-   automatically once `venv/` exists — look for a popup in the bottom
-   right). You'll know it worked when the Python version in the bottom
+   automatically once `venv/` exists). It's working when the Python version in the bottom
    status bar shows the venv path, not a system Python.
-5. **Train the model** — same command, now in VS Code's terminal (which is
-   already using the venv you selected):
+5. **Train the model in VS Code's terminal**:
    ```bash
    python train_model.py
    ```
