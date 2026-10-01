@@ -69,14 +69,10 @@ prints a held-out accuracy report, and saves the pipeline to
 
 ## Setup in VS Code
 
-VS Code works great for this project — here's the exact sequence:
-
 1. **Open the folder.** `File > Open Folder...` and pick the `DNA-chatbot`
-   project folder (not a parent folder). VS Code needs to see `chatbot.py`,
+   project folder. VS Code needs to see `chatbot.py`,
    `requirements.txt`, etc. directly inside the opened folder.
-2. **Install the Python extension**, if you haven't already (Microsoft's
-   official one — search "Python" in the Extensions panel, `Cmd+Shift+X`).
-   This gives you the interpreter picker, the Testing panel, and inline
+2. **Install the Python extension** This gives you the interpreter picker, the Testing panel, and inline
    run/debug buttons.
 3. **Create the virtual environment from VS Code's integrated terminal**
    (`` Ctrl+` `` or `Terminal > New Terminal`):
@@ -111,7 +107,7 @@ If `python3` isn't found at all, install Python 3.10+ from
 [python.org](https://www.python.org/downloads/) first (VS Code doesn't
 bundle a Python interpreter, it just drives whichever one is installed).
 
-## Chat — terminal
+## Chat - terminal
 
 ```bash
 python chatbot.py
