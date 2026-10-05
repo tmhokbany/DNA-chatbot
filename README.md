@@ -153,7 +153,7 @@ most. Note the confidence score, and treat low-confidence predictions as
 
 This is a learning/demo project, not a diagnostic or research tool:
 
-- Only 20 organisms, one reference sequence each — real-world diversity
+- Only 20 organisms, one reference sequence each. Real-world diversity
   within a species/serotype (or misidentified NCBI records) isn't
   represented.
 - The training fragments are all derived from a single sequence per
