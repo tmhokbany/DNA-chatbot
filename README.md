@@ -167,3 +167,8 @@ This is a learning/demo project, not a diagnostic or research tool:
   sequence against NCBI's curated databases (see the companion
   [16S-rRNA-pipeline](https://github.com/tmhokbany/16S-rRNA-pipeline) repo
   for a full trim/assemble/cluster pipeline that hands off to BLAST).
+- E. coli, Salmonella and Klebsiella can't always be told apart from short reads.
+  Their 16S genes are about 97% identical, which is a limit of 16S itself rather 
+  than a model bug. The bot flags these as "ambiguous" when another reference matches equally well.   
+- Noisy reads are graded cautiously. With 2% noise, 300 bp reads usually
+  come back as "related" rather than "confirmed", even though the organism is right.
