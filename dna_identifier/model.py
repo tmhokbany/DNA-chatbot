@@ -36,8 +36,7 @@ class SequenceIdentifier:
         self.pipeline = Pipeline(
             [
                 ("kmers", KmerFeaturizer(k=k, canonical=canonical)),
-                # sqrt damps the dominance of very common k-mers so rare,
-                # discriminative ones carry more weight in a linear model
+        
                 ("sqrt", FunctionTransformer(np.sqrt)),
                 (
                     "clf",
