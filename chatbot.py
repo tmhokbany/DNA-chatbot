@@ -14,8 +14,8 @@ import argparse
 import os
 import sys
 
-from dna_identifier.locate import locate
-from dna_identifier.model import SequenceIdentifier
+from dna_identifier.identify import CONFIRMED_IDENTITY, identify
+from dna_identifier.model import Prediction, SequenceIdentifier
 from dna_identifier.reference_data import load_gene_annotations, load_reference_sequences
 from dna_identifier.sequence_utils import clean_sequence, is_valid_dna, parse_fasta, sequence_stats
 
@@ -78,34 +78,68 @@ def format_prediction(
         )
 
     stats = sequence_stats(seq)
-    pred = model.predict(seq, top_n=3)
+    lines = [f"'{label_name}': {stats.length} bp, GC content {stats.gc_content}%"]
 
-    lines = [
-        f"'{label_name}': {stats.length} bp, GC content {stats.gc_content}%",
-        f"Best match: {pred.label}  ({pred.confidence * 100:.1f}% confidence)",
-        "Top matches:",
-    ]
-    for name, conf in pred.top_matches:
-        lines.append(f"    {name:<28} {conf * 100:5.1f}%")
+    if not references:
+        # no reference sequences to verify against: classifier output only
+        pred = model.predict(seq, top_n=3)
+        lines.append(f"Best match (unverified): {pred.label}  ({pred.confidence * 100:.1f}% confidence)")
+        return "\n".join(lines + _classifier_lines(pred))
 
-    if pred.confidence < 0.4:
+    result = identify(seq, model, references, gene_annotations)
+    loc = result.location
+
+    if result.status == "confirmed":
+        lines.append(f"Best match: {result.label}  (confirmed by alignment)")
+    elif result.status == "ambiguous":
         lines.append(
-            "(Low confidence — this may be a species outside my training set, "
-            "or too short/noisy a fragment. Consider confirming with BLAST.)"
+            f"Best match: {result.label}  (ambiguous: this region is nearly identical "
+            "in other organisms I know, see below; a longer sequence would settle it)"
+        )
+    elif result.status == "related":
+        lines.append(
+            f"Closest match: {result.label}  (related, but below the {CONFIRMED_IDENTITY}% "
+            "identity needed to call it the same species/strain: either a relative "
+            "that isn't in my database, or a noisy/low-quality read)"
+        )
+    else:
+        lines.append(
+            "No reliable match. This sequence doesn't align well to any organism I "
+            "know, so it's probably from something outside my database. Try BLAST."
         )
 
-    reference_seq = (references or {}).get(pred.label)
-    if reference_seq:
-        genes = (gene_annotations or {}).get(pred.label)
-        loc = locate(seq, reference_seq, genes=genes)
+    if loc is not None:
+        where = "Location" if result.status != "no_match" else "Best partial alignment"
+        target = f" in {result.alignments[0][0]}" if result.status == "no_match" else ""
         lines.append(
-            f"Location: reference positions {loc.ref_start}-{loc.ref_end} of "
-            f"{loc.ref_length} bp ({loc.strand} strand), {loc.percent_identity}% identity"
+            f"{where}{target}: reference positions {loc.ref_start}-{loc.ref_end} of "
+            f"{loc.ref_length} bp ({loc.strand} strand), {loc.percent_identity}% identity "
+            f"over {loc.query_coverage}% of the query"
         )
-        if loc.genes:
+        if loc.genes and result.status != "no_match":
             lines.append(f"Falls within: {', '.join(loc.genes)}")
 
+    if result.close_alternatives and result.status != "no_match":
+        lines.append(
+            "Nearly as good a match: "
+            + ", ".join(result.close_alternatives)
+            + " (these references are too similar here to tell apart reliably)"
+        )
+
+    lines.extend(_classifier_lines(result.classifier))
+    if result.label and not result.agrees_with_classifier:
+        lines.append(
+            f"(The k-mer classifier's top guess was {result.classifier.label}, but the "
+            "alignment against the actual reference sequences favours "
+            f"{result.label}; the alignment is the more reliable signal.)"
+        )
     return "\n".join(lines)
+
+def _classifier_lines(pred: Prediction) -> list[str]:
+    lines = ["K-mer classifier top matches:"]
+    for name, conf in pred.top_matches:
+        lines.append(f"    {name:<28} {conf * 100:5.1f}%")
+    return lines
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
